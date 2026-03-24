@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Code Reviewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white">
+
+<div class="min-h-screen flex flex-col items-center justify-center p-6">
+
+    <!-- 🔥 Title -->
+    <h1 class="text-5xl font-bold text-blue-400 mb-4">
+        🚀 AI Code Reviewer
+    </h1>
+
+    <p class="text-gray-400 mb-8 text-center max-w-xl">
+        Analyze your code using AI. Detect bugs, measure complexity, and get intelligent suggestions instantly.
+    </p>
+
+    <!-- 🔥 Form Card -->
+    <form method="POST" enctype="multipart/form-data"
+          class="w-full max-w-3xl bg-gray-800 p-6 rounded-2xl shadow-lg"
+          onsubmit="showLoader()">
+
+        {% csrf_token %}
+
+        <!-- 🔥 GitHub Input -->
+        <input type="text" name="repo"
+            placeholder="🔗 Paste GitHub repo URL..."
+            class="w-full p-3 mb-4 bg-gray-900 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500">
+
+        <p class="text-center text-gray-400 mb-2">OR</p>
+
+        <!-- 🔥 Code Input -->
+        <textarea name="code"
+            class="w-full h-40 p-4 bg-gray-900 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500"
+            placeholder="💻 Paste your code here..."></textarea>
+
+        <p class="text-center text-gray-400 my-2">OR</p>
+
+        <!-- 🔥 File Upload -->
+        <input type="file" name="file"
+            class="w-full p-2 bg-gray-900 border border-gray-700 rounded-lg">
+
+        <!-- 🔥 Button -->
+        <button type="submit"
+            class="mt-4 w-full bg-blue-600 hover:bg-blue-700 transition p-3 rounded-lg font-semibold">
+            🔍 Analyze Code
+        </button>
+
+    </form>
+
+    <!-- 🔥 Loader -->
+    <div id="loader" class="hidden mt-6 text-blue-400 text-lg">
+        ⏳ Analyzing your code... Please wait...
+    </div>
+
+    <!-- 🔥 Error Display -->
+    {% if error %}
+        <div class="mt-4 text-red-400">
+            ⚠️ {{ error }}
+        </div>
+    {% endif %}
+
+</div>
+
+<!-- 🔥 Loader Script -->
+<script>
+function showLoader() {
+    document.getElementById("loader").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>

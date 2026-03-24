@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gray-900 text-white p-6">
+
+<h1 class="text-3xl font-bold text-blue-400 mb-6">📊 Analysis Dashboard</h1>
+
+<!-- 🔥 SCORE BAR -->
+<div class="mb-6">
+    <p class="mb-2">Quality Score: {{ report.quality_score }}/100</p>
+    <div class="w-full bg-gray-700 rounded-full h-4">
+        <div class="bg-green-500 h-4 rounded-full"
+             style="width: {{ report.quality_score }}%"></div>
+    </div>
+</div>
+
+<!-- 🔥 CHART -->
+<div class="bg-gray-800 p-6 rounded-xl mb-6">
+    <canvas id="scoreChart"></canvas>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <div class="bg-gray-800 p-4 rounded-xl">
+        <h2>⏱ Time Complexity</h2>
+        <p>{{ report.time_complexity }}</p>
+    </div>
+
+    <div class="bg-gray-800 p-4 rounded-xl">
+        <h2>💾 Space Complexity</h2>
+        <p>{{ report.space_complexity }}</p>
+    </div>
+
+</div>
+
+<div class="mt-6 bg-gray-800 p-4 rounded-xl">
+    <h2 class="mb-2">🐞 Bugs</h2>
+    <ul>
+        {% for bug in report.bugs %}
+            <li class="text-red-400">• {{ bug }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="mt-6 bg-gray-800 p-4 rounded-xl">
+    <h2 class="mb-2">🤖 AI Suggestions</h2>
+    <pre class="whitespace-pre-wrap text-gray-300">{{ report.ai_review }}</pre>
+</div>
+
+<a href="/" class="text-blue-400 underline mt-6 inline-block">
+    ⬅ Back
+</a>
+
+<!-- 🔥 CHART SCRIPT -->
+<script>
+const score = {{ report.quality_score }};
+const bugs = {{ report.bugs|length }};
+
+const ctx = document.getElementById('scoreChart');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Quality Score', 'Bug Count'],
+        datasets: [{
+            label: 'Analysis',
+            data: [score, bugs],
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

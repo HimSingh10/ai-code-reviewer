@@ -1,0 +1,105 @@
+"""
+Django settings for ai_reviewer project.
+"""
+
+from pathlib import Path
+import os
+
+# Base directory
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+# SECURITY
+SECRET_KEY = "django-insecure-g$g@vevxawla2nz4=h7z^3yph@0s!xcno4+scpz4f!j@74wes9"
+
+DEBUG = True  # change to False after deploy
+
+ALLOWED_HOSTS = ["*"]  # 🔥 allow all (for deployment)
+
+
+# APPLICATIONS
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+
+    "reviewer",   # 🔥 your app
+]
+
+
+# MIDDLEWARE
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+
+    # 🔥 ADD THIS (important for deployment)
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+
+
+# URL CONFIG
+ROOT_URLCONF = "ai_reviewer.urls"
+
+
+# TEMPLATES
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates"],  # ✅ already correct
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
+]
+
+
+# WSGI
+WSGI_APPLICATION = "ai_reviewer.wsgi.application"
+
+
+# DATABASE
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
+
+
+# PASSWORD VALIDATION
+AUTH_PASSWORD_VALIDATORS = [
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+]
+
+
+# INTERNATIONALIZATION
+LANGUAGE_CODE = "en-us"
+TIME_ZONE = "UTC"
+USE_I18N = True
+USE_TZ = True
+
+
+# STATIC FILES (IMPORTANT FOR DEPLOYMENT)
+STATIC_URL = "static/"
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+# 🔥 WhiteNoise config
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
