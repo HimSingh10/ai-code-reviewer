@@ -10,11 +10,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY
-SECRET_KEY = "django-insecure-g$g@vevxawla2nz4=h7z^3yph@0s!xcno4+scpz4f!j@74wes9"
+SECRET_KEY = os.environ.get("SECRET_KEY", "fallback-secret")
 
-DEBUG = True  # change to False after deploy
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ["*"]  # 🔥 allow all (for deployment)
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
 
 
 # APPLICATIONS
